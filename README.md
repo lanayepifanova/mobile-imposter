@@ -31,7 +31,3 @@ Open the printed localhost URL.
 pnpm build
 pnpm start
 ```
-
-## Tools in use
-- Vite (frontend dev/build), React 19, Tailwind 4
-- Express server (`server/index.ts`) serving the built app
