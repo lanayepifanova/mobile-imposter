@@ -1,6 +1,8 @@
 import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
+import { CATEGORY_IMAGE_ICONS, CATEGORY_STYLES, Category, CategoryStyle } from "@/lib/game-data";
+import { CATEGORY_ICON_COMPONENTS } from "@/lib/category-ui";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
@@ -10,6 +12,15 @@ export function RoleRevealScreen() {
 
   const currentPlayerRole = gameState.playerRoles[gameState.currentPlayerIndex];
   const isImposter = currentPlayerRole === 'imposter';
+  const categoryStyle = gameState.category
+    ? (CATEGORY_STYLES as Record<string, CategoryStyle>)[gameState.category]
+    : undefined;
+  const categoryImage = gameState.category
+    ? (CATEGORY_IMAGE_ICONS as Record<string, string | undefined>)[gameState.category]
+    : undefined;
+  const CategoryIcon = gameState.category
+    ? CATEGORY_ICON_COMPONENTS[gameState.category as Category]
+    : undefined;
 
   const handleNext = () => {
     setIsRevealed(false);
@@ -53,18 +64,16 @@ export function RoleRevealScreen() {
             ) : (
               <>
                 <div className={`w-32 h-32 rounded-full flex items-center justify-center ${
-                  gameState.category === 'Math' ? 'bg-primary/10' :
-                  gameState.category === 'Physics' ? 'bg-secondary/10' :
-                  gameState.category === 'Chemistry' ? 'bg-accent/10' :
-                  gameState.category === 'Objects' ? 'bg-[var(--category-objects)]/10' :
-                  'bg-stone-100'
+                  categoryStyle?.bgClass ?? 'bg-stone-100'
                 }`}>
-                  {['Math', 'Physics', 'Chemistry', 'Objects'].includes(gameState.category || '') ? (
+                  {categoryImage ? (
                     <img 
-                      src={`/images/icon_${gameState.category?.toLowerCase()}_pastel.png`} 
+                      src={categoryImage} 
                       alt="Category"
                       className="w-16 h-16 object-contain opacity-90"
                     />
+                  ) : CategoryIcon ? (
+                    <CategoryIcon className={`w-16 h-16 ${categoryStyle?.textClass ?? 'text-stone-400'}`} />
                   ) : (
                     <span className="text-4xl font-bold text-stone-400">?</span>
                   )}

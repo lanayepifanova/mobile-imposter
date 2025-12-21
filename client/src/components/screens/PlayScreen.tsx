@@ -1,10 +1,14 @@
 import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
+import { CATEGORY_STYLES, CategoryStyle } from "@/lib/game-data";
 import { MessageSquare, Vote } from "lucide-react";
 
 export function PlayScreen() {
   const { gameState, startVoting } = useGame();
+  const categoryStyle = gameState.category
+    ? (CATEGORY_STYLES as Record<string, CategoryStyle>)[gameState.category]
+    : undefined;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -18,18 +22,10 @@ export function PlayScreen() {
       <GlassCard className="w-full p-8 space-y-10 bg-white shadow-xl border-stone-100">
         <div className="flex flex-col items-center gap-6">
           <div className={`w-24 h-24 rounded-full flex items-center justify-center ${
-            gameState.category === 'Math' ? 'bg-primary/10' :
-            gameState.category === 'Physics' ? 'bg-secondary/10' :
-            gameState.category === 'Chemistry' ? 'bg-accent/10' :
-            gameState.category === 'Objects' ? 'bg-[var(--category-objects)]/10' :
-            'bg-stone-100'
+            categoryStyle?.bgClass ?? 'bg-stone-100'
           }`}>
             <MessageSquare className={`w-10 h-10 ${
-              gameState.category === 'Math' ? 'text-primary' :
-              gameState.category === 'Physics' ? 'text-secondary' :
-              gameState.category === 'Chemistry' ? 'text-accent' :
-              gameState.category === 'Objects' ? 'text-[var(--category-objects)]' :
-              'text-stone-400'
+              categoryStyle?.textClass ?? 'text-stone-400'
             }`} />
           </div>
           

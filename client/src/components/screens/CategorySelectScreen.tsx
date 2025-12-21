@@ -1,7 +1,8 @@
 import { CustomCategoryDialog } from "@/components/CustomCategoryDialog";
 import { GlassCard } from "@/components/GlassCard";
 import { useGame } from "@/contexts/GameContext";
-import { CATEGORIES } from "@/lib/game-data";
+import { CATEGORY_DESCRIPTIONS, CATEGORY_IMAGE_ICONS, CATEGORY_STYLES, CATEGORIES } from "@/lib/game-data";
+import { CATEGORY_ICON_COMPONENTS } from "@/lib/category-ui";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
@@ -18,39 +19,42 @@ export function CategorySelectScreen() {
 
       <div className="grid grid-cols-1 gap-4 pb-20">
         {/* Standard Categories */}
-        {CATEGORIES.map((cat) => (
+        {CATEGORIES.map((cat) => {
+          const categoryStyle = CATEGORY_STYLES[cat];
+          const categoryImage = CATEGORY_IMAGE_ICONS[cat];
+          const CategoryIcon = CATEGORY_ICON_COMPONENTS[cat];
+
+          return (
           <GlassCard 
             key={cat}
             hoverEffect
             onClick={() => startGame(cat)}
             className="flex items-center gap-6 p-5 group border-transparent hover:border-stone-200"
           >
-            <div className={`w-16 h-16 rounded-2xl p-3 transition-colors duration-300 ${
-              cat === 'Math' ? 'bg-primary/10 group-hover:bg-primary/20' :
-              cat === 'Physics' ? 'bg-secondary/10 group-hover:bg-secondary/20' :
-              cat === 'Chemistry' ? 'bg-accent/10 group-hover:bg-accent/20' :
-              'bg-[var(--category-objects)]/10 group-hover:bg-[var(--category-objects)]/20'
-            }`}>
-              <img 
-                src={`/images/icon_${cat.toLowerCase()}_pastel.png`} 
-                alt={cat}
-                className="w-full h-full object-contain"
-              />
+            <div className={`w-16 h-16 rounded-2xl p-3 transition-colors duration-300 ${categoryStyle.bgClass} ${categoryStyle.bgHoverClass}`}>
+              {categoryImage ? (
+                <img 
+                  src={categoryImage} 
+                  alt={cat}
+                  className="w-full h-full object-contain"
+                />
+              ) : CategoryIcon ? (
+                <CategoryIcon className={`w-full h-full ${categoryStyle.textClass}`} />
+              ) : (
+                <span className="w-full h-full flex items-center justify-center text-2xl font-bold text-stone-400">?</span>
+              )}
             </div>
             <div className="flex-1">
               <h3 className="text-2xl font-bold font-playfair text-stone-800">{cat}</h3>
               <p className="text-xs text-stone-400 font-lato uppercase tracking-wider mt-1">
-                {cat === 'Math' && 'Calculus • Geometry • Algebra'}
-                {cat === 'Physics' && 'Quantum • Gravity • Forces'}
-                {cat === 'Chemistry' && 'Elements • Reactions • Bonds'}
-                {cat === 'Objects' && 'Everyday Items • Tools • Furniture'}
+                {CATEGORY_DESCRIPTIONS[cat]}
               </p>
             </div>
             <div className="text-stone-300 group-hover:text-stone-800 transition-colors">
               &rarr;
             </div>
           </GlassCard>
-        ))}
+        )})}
 
         {/* Custom Categories */}
         {Object.keys(customCategories).map((cat) => (

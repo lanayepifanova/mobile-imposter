@@ -55,7 +55,7 @@ export function SetupScreen() {
         </h1>
         <div className="h-1 w-20 bg-primary mx-auto rounded-full opacity-50"></div>
         <p className="text-stone-500 font-lato tracking-widest uppercase text-xs font-bold">
-          Science Edition
+          All Categories
         </p>
       </div>
 
@@ -183,7 +183,7 @@ export function SetupScreen() {
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary font-bold">1</div>
                 <div>
                   <h4 className="font-bold text-stone-800 mb-1">Setup</h4>
-                  <p className="text-sm">Choose the number of players and imposters, then pick a science category.</p>
+                  <p className="text-sm">Choose the number of players and imposters, then pick a category.</p>
                 </div>
               </div>
 
