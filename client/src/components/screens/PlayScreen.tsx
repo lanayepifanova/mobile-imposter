@@ -2,16 +2,25 @@ import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
 import { CATEGORY_STYLES, CategoryStyle } from "@/lib/game-data";
-import { MessageSquare, Vote } from "lucide-react";
+import { ArrowLeft, MessageSquare, Vote } from "lucide-react";
 
 export function PlayScreen() {
-  const { gameState, startVoting } = useGame();
+  const { gameState, startVoting, goToRoleReveal } = useGame();
   const categoryStyle = gameState.category
     ? (CATEGORY_STYLES as Record<string, CategoryStyle>)[gameState.category]
     : undefined;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700">
+      <NeonButton
+        variant="ghost"
+        size="sm"
+        onClick={goToRoleReveal}
+        className="self-start mb-6 gap-2"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back
+      </NeonButton>
       <div className="text-center mb-10 space-y-3">
         <h2 className="text-4xl font-playfair font-bold text-stone-800">Discussion</h2>
         <p className="text-stone-500 font-lato">

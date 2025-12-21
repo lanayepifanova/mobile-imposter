@@ -1,18 +1,28 @@
 import { CustomCategoryDialog } from "@/components/CustomCategoryDialog";
 import { GlassCard } from "@/components/GlassCard";
+import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
 import { CATEGORY_DESCRIPTIONS, CATEGORY_IMAGE_ICONS, CATEGORY_STYLES, CATEGORIES } from "@/lib/game-data";
 import { CATEGORY_ICON_COMPONENTS } from "@/lib/category-ui";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
 
 export function CategorySelectScreen() {
-  const { startGame, customCategories } = useGame();
+  const { startGame, customCategories, goToSetup } = useGame();
   const [isCustomDialogOpen, setIsCustomDialogOpen] = useState(false);
 
   return (
     <div className="flex flex-col gap-8 max-w-md mx-auto w-full animate-in fade-in slide-in-from-right-8 duration-500">
-      <div className="text-center space-y-3">
+      <div className="text-center space-y-3 relative">
+        <NeonButton
+          variant="ghost"
+          size="sm"
+          onClick={goToSetup}
+          className="absolute left-0 top-0 gap-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </NeonButton>
         <h2 className="text-4xl font-playfair font-bold text-stone-800">Select Discipline</h2>
         <p className="text-stone-500 font-lato">Choose the field of study for this round.</p>
       </div>

@@ -7,7 +7,10 @@ interface GameContextType {
   setPlayers: (count: number) => void;
   setPlayerNames: (names: string[]) => void;
   setImposters: (count: number) => void;
+  goToSetup: () => void;
   goToCategorySelect: () => void;
+  goToRoleReveal: () => void;
+  goToPlay: () => void;
   startGame: (category: string) => void;
   addCustomCategory: (name: string, words: string[]) => void;
   customCategories: Record<string, string[]>;
@@ -64,8 +67,44 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setGameState(prev => ({ ...prev, imposters: count }));
   };
 
+  const goToSetup = () => {
+    setGameState(prev => ({
+      ...prev,
+      step: 'setup',
+      category: null,
+      secretWord: '',
+      playerRoles: [],
+      currentPlayerIndex: 0,
+      votes: {},
+      winner: null,
+    }));
+  };
+
   const goToCategorySelect = () => {
-    setGameState(prev => ({ ...prev, step: 'category-select' }));
+    setGameState(prev => ({
+      ...prev,
+      step: 'category-select',
+      category: null,
+      secretWord: '',
+      playerRoles: [],
+      currentPlayerIndex: 0,
+      votes: {},
+      winner: null,
+    }));
+  };
+
+  const goToRoleReveal = () => {
+    setGameState(prev => ({
+      ...prev,
+      step: 'roles',
+      currentPlayerIndex: 0,
+      votes: {},
+      winner: null,
+    }));
+  };
+
+  const goToPlay = () => {
+    setGameState(prev => ({ ...prev, step: 'play', votes: {}, winner: null }));
   };
 
   const addCustomCategory = (name: string, words: string[]) => {
@@ -158,7 +197,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setPlayers, 
       setPlayerNames,
       setImposters, 
+      goToSetup,
       goToCategorySelect,
+      goToRoleReveal,
+      goToPlay,
       startGame, 
       addCustomCategory,
       customCategories,

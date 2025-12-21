@@ -3,11 +3,11 @@ import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
 import { CATEGORY_IMAGE_ICONS, CATEGORY_STYLES, Category, CategoryStyle } from "@/lib/game-data";
 import { CATEGORY_ICON_COMPONENTS } from "@/lib/category-ui";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 export function RoleRevealScreen() {
-  const { gameState, nextPlayer } = useGame();
+  const { gameState, nextPlayer, goToCategorySelect } = useGame();
   const [isRevealed, setIsRevealed] = useState(false);
 
   const currentPlayerRole = gameState.playerRoles[gameState.currentPlayerIndex];
@@ -29,6 +29,15 @@ export function RoleRevealScreen() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full max-w-md mx-auto animate-in fade-in duration-500">
+      <NeonButton
+        variant="ghost"
+        size="sm"
+        onClick={goToCategorySelect}
+        className="self-start mb-6 gap-2"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back
+      </NeonButton>
       <div className="text-center space-y-3">
         <h2 className="text-4xl font-playfair font-bold text-stone-800">
           {gameState.playerNames[gameState.currentPlayerIndex]}
