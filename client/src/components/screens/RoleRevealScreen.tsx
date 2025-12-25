@@ -7,7 +7,7 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 export function RoleRevealScreen() {
-  const { gameState, nextPlayer, goToCategorySelect } = useGame();
+  const { gameState, nextPlayer, prevPlayer } = useGame();
   const [isRevealed, setIsRevealed] = useState(false);
 
   const currentPlayerRole = gameState.playerRoles[gameState.currentPlayerIndex];
@@ -32,7 +32,7 @@ export function RoleRevealScreen() {
       <NeonButton
         variant="ghost"
         size="sm"
-        onClick={goToCategorySelect}
+        onClick={prevPlayer}
         className="self-start mb-6 gap-2"
       >
         <ArrowLeft className="w-4 h-4" />

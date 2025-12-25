@@ -15,6 +15,7 @@ interface GameContextType {
   addCustomCategory: (name: string, words: string[]) => void;
   customCategories: Record<string, string[]>;
   nextPlayer: () => void;
+  prevPlayer: () => void;
   startVoting: () => void;
   castVote: (targetIndex: number) => void;
   resetGame: () => void;
@@ -163,6 +164,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const prevPlayer = () => {
+    setGameState(prev => {
+      if (prev.currentPlayerIndex <= 0) {
+        return { ...prev, step: 'category-select' };
+      }
+      return { ...prev, currentPlayerIndex: prev.currentPlayerIndex - 1 };
+    });
+  };
+
   const startVoting = () => {
     setGameState(prev => ({ ...prev, step: 'vote' }));
   };
@@ -211,7 +221,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       startGame, 
       addCustomCategory,
       customCategories,
-      nextPlayer, 
+      nextPlayer,
+      prevPlayer,
       startVoting, 
       castVote,
       resetGame 
