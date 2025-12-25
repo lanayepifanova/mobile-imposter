@@ -2,6 +2,7 @@ import { PlayScreen } from "@/components/screens/PlayScreen";
 import { RoleRevealScreen } from "@/components/screens/RoleRevealScreen";
 import { CategorySelectScreen } from "@/components/screens/CategorySelectScreen";
 import { SetupScreen } from "@/components/screens/SetupScreen";
+import { StartingPlayerScreen } from "@/components/screens/StartingPlayerScreen";
 import { VoteScreen } from "@/components/screens/VoteScreen";
 import { GameProvider, useGame } from "@/contexts/GameContext";
 
@@ -21,6 +22,7 @@ function GameContainer() {
         {gameState.step === 'setup' && <SetupScreen />}
         {gameState.step === 'category-select' && <CategorySelectScreen />}
         {gameState.step === 'roles' && <RoleRevealScreen />}
+        {gameState.step === 'start-player' && <StartingPlayerScreen />}
         {gameState.step === 'play' && <PlayScreen />}
         {gameState.step === 'vote' && <VoteScreen />}
       </div>

@@ -38,6 +38,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     secretWord: '',
     playerRoles: [],
     currentPlayerIndex: 0,
+    startingPlayerIndex: null,
     votes: {},
     winner: null,
   });
@@ -75,6 +76,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       secretWord: '',
       playerRoles: [],
       currentPlayerIndex: 0,
+      startingPlayerIndex: null,
       votes: {},
       winner: null,
     }));
@@ -88,6 +90,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       secretWord: '',
       playerRoles: [],
       currentPlayerIndex: 0,
+      startingPlayerIndex: null,
       votes: {},
       winner: null,
     }));
@@ -98,6 +101,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       step: 'roles',
       currentPlayerIndex: 0,
+      startingPlayerIndex: null,
       votes: {},
       winner: null,
     }));
@@ -143,6 +147,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       secretWord,
       playerRoles: roles,
       currentPlayerIndex: 0,
+      startingPlayerIndex: null,
       votes: {},
       winner: null,
     }));
@@ -151,7 +156,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const nextPlayer = () => {
     setGameState(prev => {
       if (prev.currentPlayerIndex + 1 >= prev.players) {
-        return { ...prev, step: 'play' };
+        const startingPlayerIndex = Math.floor(Math.random() * prev.players);
+        return { ...prev, step: 'start-player', startingPlayerIndex };
       }
       return { ...prev, currentPlayerIndex: prev.currentPlayerIndex + 1 };
     });
@@ -186,6 +192,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       secretWord: '',
       playerRoles: [],
       currentPlayerIndex: 0,
+      startingPlayerIndex: null,
       votes: {},
       winner: null,
     });

@@ -108,7 +108,7 @@ export function RoleRevealScreen() {
           className="mt-10 w-full shadow-lg" 
           onClick={handleNext}
         >
-          {gameState.currentPlayerIndex + 1 < gameState.players ? "Next Player" : "Start Game"}
+          {gameState.currentPlayerIndex + 1 < gameState.players ? "Next Player" : "See Who Goes First"}
         </NeonButton>
       )}
     </div>

@@ -1,7 +1,7 @@
-export type Category = 'Math' | 'Physics' | 'Chemistry' | 'Objects' | 'Emotions' | 'College Majors' | 'Red Flags' | 'Animals' | 'Geography';
+export type Category = 'Objects' | 'Science' | 'Animals';
 
 export interface GameState {
-  step: 'setup' | 'category-select' | 'roles' | 'play' | 'vote' | 'result';
+  step: 'setup' | 'category-select' | 'roles' | 'start-player' | 'play' | 'vote' | 'result';
   players: number;
   playerNames: string[];
   imposters: number;
@@ -9,6 +9,7 @@ export interface GameState {
   secretWord: string;
   playerRoles: Role[];
   currentPlayerIndex: number;
+  startingPlayerIndex: number | null;
   votes: Record<number, number>; // playerIndex -> votes received
   winner: 'crew' | 'imposter' | null;
 }
@@ -19,15 +20,9 @@ export const MIN_PLAYERS = 3;
 export const MAX_PLAYERS = 12;
 
 export const CATEGORIES: Category[] = [
-  'Math',
-  'Physics',
-  'Chemistry',
   'Objects',
-  'Emotions',
-  'College Majors',
-  'Red Flags',
-  'Animals',
-  'Geography'
+  'Science',
+  'Animals'
 ];
 
 export interface CategoryStyle {
@@ -37,74 +32,36 @@ export interface CategoryStyle {
 }
 
 export const CATEGORY_STYLES: Record<Category, CategoryStyle> = {
-  Math: {
-    bgClass: 'bg-primary/10',
-    bgHoverClass: 'group-hover:bg-primary/20',
-    textClass: 'text-primary'
-  },
-  Physics: {
-    bgClass: 'bg-secondary/10',
-    bgHoverClass: 'group-hover:bg-secondary/20',
-    textClass: 'text-secondary'
-  },
-  Chemistry: {
-    bgClass: 'bg-accent/10',
-    bgHoverClass: 'group-hover:bg-accent/20',
-    textClass: 'text-accent'
-  },
   Objects: {
     bgClass: 'bg-[var(--category-objects)]/10',
     bgHoverClass: 'group-hover:bg-[var(--category-objects)]/20',
     textClass: 'text-[var(--category-objects)]'
   },
-  Emotions: {
-    bgClass: 'bg-[var(--category-emotions)]/10',
-    bgHoverClass: 'group-hover:bg-[var(--category-emotions)]/20',
-    textClass: 'text-[var(--category-emotions)]'
-  },
-  'College Majors': {
-    bgClass: 'bg-[var(--category-majors)]/10',
-    bgHoverClass: 'group-hover:bg-[var(--category-majors)]/20',
-    textClass: 'text-[var(--category-majors)]'
-  },
-  'Red Flags': {
-    bgClass: 'bg-[var(--category-red-flags)]/10',
-    bgHoverClass: 'group-hover:bg-[var(--category-red-flags)]/20',
-    textClass: 'text-[var(--category-red-flags)]'
+  Science: {
+    bgClass: 'bg-[var(--category-science)]/10',
+    bgHoverClass: 'group-hover:bg-[var(--category-science)]/20',
+    textClass: 'text-[var(--category-science)]'
   },
   Animals: {
     bgClass: 'bg-[var(--category-animals)]/10',
     bgHoverClass: 'group-hover:bg-[var(--category-animals)]/20',
     textClass: 'text-[var(--category-animals)]'
-  },
-  Geography: {
-    bgClass: 'bg-[var(--category-geography)]/10',
-    bgHoverClass: 'group-hover:bg-[var(--category-geography)]/20',
-    textClass: 'text-[var(--category-geography)]'
   }
 };
 
 export const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
-  Math: 'Calculus • Geometry • Algebra',
-  Physics: 'Quantum • Gravity • Forces',
-  Chemistry: 'Elements • Reactions • Bonds',
   Objects: 'Everyday Items • Tools • Furniture',
-  Emotions: 'Joy • Fear • Surprise',
-  'College Majors': 'STEM • Arts • Business',
-  'Red Flags': 'Warnings • Signals • Clues',
-  Animals: 'Wildlife • Pets • Creatures',
-  Geography: 'Places • Landforms • Maps'
+  Science: 'Math • Physics • Earth',
+  Animals: 'Wildlife • Pets • Creatures'
 };
 
 export const CATEGORY_IMAGE_ICONS: Partial<Record<Category, string>> = {
-  Math: '/images/icon_math_pastel.png',
-  Physics: '/images/icon_physics_pastel.png',
-  Chemistry: '/images/icon_chemistry_pastel.png',
-  Objects: '/images/icon_objects_pastel.png'
+  Objects: '/images/icon_objects_pastel.png',
+  Science: '/images/icon_chemistry_pastel.png'
 };
 
 export const WORDS: Record<Category, string[]> = {
-  Math: [
+  Science: [
     "Game Theory", "Chaos Theory", "Number Theory", "Set Theory", "Graph Theory", 
     "Knot Theory", "Group Theory", "Ring Theory", "Field Theory", "Galois Theory", 
     "Model Theory", "Proof Theory", "Type Theory", "Category Theory", "Measure Theory", 
@@ -154,9 +111,7 @@ export const WORDS: Record<Category, string[]> = {
     "Event", "Experimental Prob", "Theoretical Prob", "Conditional Prob", "Independent Events", 
     "Dependent Events", "Bayes Rule", "Expected Value", "Random Variable", "Normal Curve", 
     "Standard Normal", "Z-Score", "Histogram", "Box Plot", "Scatter Plot", 
-    "Correlation Coeff", "Residual", "Linear Regression", "Outlier", "Confidence Interval"
-  ],
-  Physics: [
+    "Correlation Coeff", "Residual", "Linear Regression", "Outlier", "Confidence Interval",
     "Relativity", "Quantum Mech", "Thermodynamics", "Electromagnetism", "Gravity", 
     "Black Hole", "Dark Matter", "Dark Energy", "Big Bang", "String Theory", 
     "Standard Model", "Higgs Boson", "Quark", "Lepton", "Boson", 
@@ -206,9 +161,7 @@ export const WORDS: Record<Category, string[]> = {
     "Magnet", "Lorentz Force", "Induction", "Faraday Law", "Lenz Law", 
     "Transformer", "Generator", "Motor", "AC Current", "DC Current", 
     "RMS Voltage", "Standing Wave", "Node", "Antinode", "Fundamental", 
-    "Harmonic", "Resonance", "Lens", "Focal Length", "Snell Law"
-  ],
-  Chemistry: [
+    "Harmonic", "Resonance", "Lens", "Focal Length", "Snell Law",
     "Atom", "Molecule", "Ion", "Isotope", "Element", 
     "Compound", "Mixture", "Solution", "Suspension", "Colloid", 
     "Acid", "Base", "pH", "Buffer", "Salt", 
@@ -258,7 +211,28 @@ export const WORDS: Record<Category, string[]> = {
     "Heat of Reaction", "Enthalpy Change", "Hess Law", "Entropy Change", "Gibbs Free", 
     "Spontaneity", "Electrolyte", "Nonelectrolyte", "Precipitate", "Solubility Curve", 
     "Saturated", "Unsaturated", "Supersaturated", "Solvation", "Hydration", 
-    "Dissociation", "Strong Acid", "Weak Acid", "Strong Base", "Weak Base"
+    "Dissociation", "Strong Acid", "Weak Acid", "Strong Base", "Weak Base",
+    "Computer Science", "Mathematics", "Physics", "Chemistry", "Biology",
+    "Psychology", "Sociology", "Economics", "Political Science", "Philosophy",
+    "English", "History", "Art History", "Graphic Design", "Architecture",
+    "Civil Engineering", "Mechanical Engineering", "Electrical Engineering", "Chemical Engineering", "Biomedical Engineering",
+    "Nursing", "Pre-Med", "Public Health", "Business Administration", "Accounting",
+    "Finance", "Marketing", "International Relations", "Anthropology", "Linguistics",
+    "Education", "Early Childhood", "Environmental Science", "Geology", "Astronomy",
+    "Music", "Theater", "Film Studies", "Journalism", "Communications",
+    "Statistics", "Data Science", "Information Systems", "Cybersecurity", "Game Design",
+    "Supply Chain", "Human Resources", "Criminal Justice", "Law", "Kinesiology",
+    "Nutrition", "Social Work", "Urban Planning", "Neuroscience", "Hospitality",
+    "Mountain", "River", "Lake", "Ocean", "Desert",
+    "Peninsula", "Delta", "Archipelago", "Equator", "Prime Meridian",
+    "Latitude", "Longitude", "Tundra", "Savanna", "Rainforest",
+    "Glacier", "Canyon", "Plateau", "Valley", "Coast",
+    "Gulf", "Bay", "Strait", "Island", "Continent",
+    "Hemisphere", "Volcano", "Earthquake", "Tectonic Plate", "Fjord",
+    "Oasis", "Monsoon", "Climate Zone", "Steppe", "Wetland",
+    "Marsh", "Lagoon", "Coral Reef", "Atoll", "Watershed",
+    "River Basin", "Estuary", "Capital City", "Border", "Map",
+    "Compass Rose", "Scale", "Topography", "Elevation", "Time Zone"
   ],
   Objects: [
     "Chair", "Table", "Desk", "Sofa", "Bed", 
@@ -312,44 +286,6 @@ export const WORDS: Record<Category, string[]> = {
     "Ethernet Cable", "Mouse", "Keyboard", "Mouse Pad", "Monitor", 
     "Printer", "Scanner", "Copier", "Shredder", "Filing Cabinet"
   ],
-  Emotions: [
-    "Joy", "Sadness", "Anger", "Fear", "Surprise",
-    "Disgust", "Trust", "Anticipation", "Relief", "Anxiety",
-    "Pride", "Shame", "Guilt", "Embarrassment", "Excitement",
-    "Boredom", "Contentment", "Gratitude", "Envy", "Jealousy",
-    "Hope", "Despair", "Loneliness", "Love", "Affection",
-    "Nostalgia", "Awe", "Curiosity", "Frustration", "Irritation",
-    "Calm", "Serenity", "Stress", "Panic", "Compassion",
-    "Sympathy", "Empathy", "Confusion", "Doubt", "Determination",
-    "Motivation", "Amusement", "Delight", "Triumph", "Regret",
-    "Melancholy", "Resentment", "Vulnerability", "Courage", "Confidence",
-    "Insecurity", "Wonder", "Tenderness", "Content", "Grief"
-  ],
-  'College Majors': [
-    "Computer Science", "Mathematics", "Physics", "Chemistry", "Biology",
-    "Psychology", "Sociology", "Economics", "Political Science", "Philosophy",
-    "English", "History", "Art History", "Graphic Design", "Architecture",
-    "Civil Engineering", "Mechanical Engineering", "Electrical Engineering", "Chemical Engineering", "Biomedical Engineering",
-    "Nursing", "Pre-Med", "Public Health", "Business Administration", "Accounting",
-    "Finance", "Marketing", "International Relations", "Anthropology", "Linguistics",
-    "Education", "Early Childhood", "Environmental Science", "Geology", "Astronomy",
-    "Music", "Theater", "Film Studies", "Journalism", "Communications",
-    "Statistics", "Data Science", "Information Systems", "Cybersecurity", "Game Design",
-    "Supply Chain", "Human Resources", "Criminal Justice", "Law", "Kinesiology",
-    "Nutrition", "Social Work", "Urban Planning", "Neuroscience", "Hospitality"
-  ],
-  'Red Flags': [
-    "Ghosting", "Love Bombing", "Gaslighting", "Jealousy", "Controlling",
-    "Silent Treatment", "Constant Lying", "Blame Shifting", "No Accountability", "Insults",
-    "Hot and Cold", "Boundary Pushing", "Disrespect", "Manipulation", "Isolation",
-    "Financial Secrecy", "Double Standards", "Excessive Criticism", "Explosive Anger", "Stonewalling",
-    "Passive Aggressive", "Canceling Plans", "Breadcrumbing", "Inconsistency", "Secretive Phone",
-    "Rushing Intimacy", "Ultimatums", "Threats", "Name Calling", "Mocking",
-    "Minimizing Feelings", "Invalidation", "No Empathy", "Victim Playing", "Constant Flirting",
-    "Cheating", "Lack of Trust", "Unreliable", "Addiction", "Dishonesty",
-    "Disappearing Act", "Future Faking", "Jealous Monitoring", "Overly Defensive", "Refuses Apologize",
-    "Breaks Promises", "Privacy Invasion", "Guilt Trips", "Tries to Control", "Disrespecting Friends"
-  ],
   Animals: [
     "Dog", "Cat", "Horse", "Cow", "Sheep",
     "Goat", "Pig", "Rabbit", "Deer", "Fox",
@@ -361,18 +297,10 @@ export const WORDS: Record<Category, string[]> = {
     "Hawk", "Owl", "Parrot", "Flamingo", "Peacock",
     "Turtle", "Snake", "Lizard", "Frog", "Crocodile",
     "Alligator", "Bee", "Butterfly", "Ant", "Ladybug",
-    "Horsefly", "Moose", "Bison", "Camel", "Raccoon"
+    "Horsefly", "Moose", "Bison", "Camel", "Raccoon",
+    "Dragon", "Fairy", "Wizard", "Giant", "Mermaid",
+    "Troll", "Elf", "Unicorn", "Witch", "Knight",
+    "Griffin", "Phoenix", "Centaur", "Minotaur", "Pegasus",
+    "Cyclops", "Goblin", "Genie", "Werewolf", "Vampire"
   ],
-  Geography: [
-    "Mountain", "River", "Lake", "Ocean", "Desert",
-    "Peninsula", "Delta", "Archipelago", "Equator", "Prime Meridian",
-    "Latitude", "Longitude", "Tundra", "Savanna", "Rainforest",
-    "Glacier", "Canyon", "Plateau", "Valley", "Coast",
-    "Gulf", "Bay", "Strait", "Island", "Continent",
-    "Hemisphere", "Volcano", "Earthquake", "Tectonic Plate", "Fjord",
-    "Oasis", "Monsoon", "Climate Zone", "Steppe", "Wetland",
-    "Marsh", "Lagoon", "Coral Reef", "Atoll", "Watershed",
-    "River Basin", "Estuary", "Capital City", "Border", "Map",
-    "Compass Rose", "Scale", "Topography", "Elevation", "Time Zone"
-  ]
 };
