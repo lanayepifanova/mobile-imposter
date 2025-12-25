@@ -13,12 +13,12 @@ export function CategorySelectScreen() {
 
   return (
     <div className="flex flex-col gap-8 max-w-md mx-auto w-full animate-in fade-in slide-in-from-right-8 duration-500">
-      <div className="text-center space-y-3 relative">
+      <div className="flex flex-col items-center text-center space-y-3">
         <NeonButton
           variant="ghost"
           size="sm"
           onClick={goToSetup}
-          className="absolute left-0 top-0 gap-2"
+          className="self-start gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
