@@ -1,23 +1,33 @@
 import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export function VoteScreen() {
   const { gameState, resetGame, goToStartPlayer } = useGame();
   const [revealedRoles, setRevealedRoles] = useState(false);
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full max-w-sm mx-auto animate-in fade-in duration-700">
-      <NeonButton
-        variant="ghost"
-        size="sm"
-        onClick={goToStartPlayer}
-        className="fixed left-4 top-0 mt-[env(safe-area-inset-top)] z-20"
-        disabled={revealedRoles}
-      >
-        Back
-      </NeonButton>
+      {portalRoot &&
+        createPortal(
+          <NeonButton
+            variant="ghost"
+            size="sm"
+            onClick={goToStartPlayer}
+            className="fixed left-4 top-[env(safe-area-inset-top)] z-30"
+            disabled={revealedRoles}
+          >
+            Back
+          </NeonButton>,
+          portalRoot
+        )}
       <div className="text-center mb-10">
         <h2 className="text-3xl font-playfair font-bold text-foreground mb-2">
           {revealedRoles ? "The Truth" : "Who is it?"}

@@ -2,23 +2,34 @@ import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
 import { CATEGORY_STYLES, CategoryStyle } from "@/lib/game-data";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export function PlayScreen() {
   const { gameState, startVoting, goToRoleReveal } = useGame();
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const categoryStyle = gameState.category
     ? (CATEGORY_STYLES as Record<string, CategoryStyle>)[gameState.category]
     : undefined;
 
+  useEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full max-w-sm mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700">
-      <NeonButton
-        variant="ghost"
-        size="sm"
-        onClick={goToRoleReveal}
-        className="fixed left-4 top-0 mt-[env(safe-area-inset-top)] z-20"
-      >
-        Back
-      </NeonButton>
+      {portalRoot &&
+        createPortal(
+          <NeonButton
+            variant="ghost"
+            size="sm"
+            onClick={goToRoleReveal}
+            className="fixed left-4 top-[env(safe-area-inset-top)] z-30"
+          >
+            Back
+          </NeonButton>,
+          portalRoot
+        )}
       <div className="text-center mb-10 space-y-3">
         <h2 className="text-3xl font-playfair font-bold text-foreground">Discussion</h2>
         <p className="text-foreground/70 font-lato text-sm">

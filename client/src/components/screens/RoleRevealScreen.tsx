@@ -2,11 +2,13 @@ import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
 import { CATEGORY_STYLES, CategoryStyle } from "@/lib/game-data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export function RoleRevealScreen() {
   const { gameState, nextPlayer, prevPlayer } = useGame();
   const [isRevealed, setIsRevealed] = useState(false);
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
 
   const currentPlayerRole = gameState.playerRoles[gameState.currentPlayerIndex];
   const isImposter = currentPlayerRole === 'imposter';
@@ -18,16 +20,24 @@ export function RoleRevealScreen() {
     nextPlayer();
   };
 
+  useEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full max-w-sm mx-auto animate-in fade-in duration-500">
-      <NeonButton
-        variant="ghost"
-        size="sm"
-        onClick={prevPlayer}
-        className="fixed left-4 top-0 mt-[env(safe-area-inset-top)] z-20"
-      >
-        Back
-      </NeonButton>
+      {portalRoot &&
+        createPortal(
+          <NeonButton
+            variant="ghost"
+            size="sm"
+            onClick={prevPlayer}
+            className="fixed left-4 top-[env(safe-area-inset-top)] z-30"
+          >
+            Back
+          </NeonButton>,
+          portalRoot
+        )}
       <div className="text-center space-y-3">
         <h2 className="text-3xl font-playfair font-bold text-foreground">
           {gameState.playerNames[gameState.currentPlayerIndex]}

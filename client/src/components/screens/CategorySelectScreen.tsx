@@ -3,23 +3,33 @@ import { GlassCard } from "@/components/GlassCard";
 import { NeonButton } from "@/components/NeonButton";
 import { useGame } from "@/contexts/GameContext";
 import { CATEGORY_DESCRIPTIONS, CATEGORIES } from "@/lib/game-data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export function CategorySelectScreen() {
   const { startGame, customCategories, goToSetup } = useGame();
   const [isCustomDialogOpen, setIsCustomDialogOpen] = useState(false);
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 max-w-sm mx-auto w-full animate-in fade-in slide-in-from-right-8 duration-500">
       <div className="flex flex-col items-center text-center space-y-3">
-        <NeonButton
-          variant="ghost"
-          size="sm"
-          onClick={goToSetup}
-          className="fixed left-4 top-0 mt-[env(safe-area-inset-top)] z-20"
-        >
-          Back
-        </NeonButton>
+        {portalRoot &&
+          createPortal(
+            <NeonButton
+              variant="ghost"
+              size="sm"
+              onClick={goToSetup}
+              className="fixed left-4 top-[env(safe-area-inset-top)] z-30"
+            >
+              Back
+            </NeonButton>,
+            portalRoot
+          )}
         <h2 className="text-3xl font-playfair font-bold text-foreground">Select Discipline</h2>
         <p className="text-foreground/70 font-lato text-sm">Choose the field of study for this round.</p>
       </div>
