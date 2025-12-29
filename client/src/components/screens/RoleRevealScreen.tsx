@@ -24,7 +24,7 @@ export function RoleRevealScreen() {
         variant="ghost"
         size="sm"
         onClick={prevPlayer}
-        className="self-start mb-4"
+        className="fixed left-4 top-4 z-10"
       >
         Back
       </NeonButton>
@@ -37,7 +37,7 @@ export function RoleRevealScreen() {
         </p>
       </div>
 
-      <GlassCard className="w-full aspect-[4/5] flex flex-col items-center justify-center relative overflow-hidden group bg-card shadow-xl border-border ink-wash-card">
+      <GlassCard className="w-full max-w-[260px] mx-auto aspect-[4/5] flex flex-col items-center justify-center relative overflow-hidden group bg-card shadow-xl border-border ink-wash-card">
         {!isRevealed ? (
           <div 
             className="absolute inset-0 flex flex-col items-center justify-center bg-background/60 backdrop-blur-sm z-10 cursor-pointer transition-all hover:bg-background/30"
@@ -56,19 +56,12 @@ export function RoleRevealScreen() {
               </>
             ) : (
               <>
-                <div className={`w-24 h-24 rounded-full flex items-center justify-center ${
-                  categoryStyle?.bgClass ?? 'bg-background'
-                }`}>
-                  <span className="text-foreground/60 text-xs font-semibold tracking-widest">ROLE</span>
-                </div>
                 <div>
                   <h3 className="text-sm font-lato font-bold text-foreground/60 tracking-widest uppercase mb-4">Secret Word</h3>
                   <div className="relative">
-                    <span className="absolute -top-4 -left-4 text-6xl text-foreground/20 font-serif">"</span>
                     <p className="text-3xl font-playfair font-bold text-foreground relative z-10">
                       {gameState.secretWord}
                     </p>
-                    <span className="absolute -bottom-8 -right-4 text-6xl text-foreground/20 font-serif">"</span>
                   </div>
                 </div>
               </>

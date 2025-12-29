@@ -15,7 +15,7 @@ export function PlayScreen() {
         variant="ghost"
         size="sm"
         onClick={goToRoleReveal}
-        className="self-start mb-4"
+        className="fixed left-4 top-4 z-10"
       >
         Back
       </NeonButton>

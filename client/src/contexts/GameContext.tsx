@@ -10,7 +10,7 @@ interface GameContextType {
   goToSetup: () => void;
   goToCategorySelect: () => void;
   goToRoleReveal: () => void;
-  goToPlay: () => void;
+  goToStartPlayer: () => void;
   startGame: (category: string) => void;
   addCustomCategory: (name: string, words: string[]) => void;
   customCategories: Record<string, string[]>;
@@ -108,8 +108,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }));
   };
 
-  const goToPlay = () => {
-    setGameState(prev => ({ ...prev, step: 'play', votes: {}, winner: null }));
+  const goToStartPlayer = () => {
+    setGameState(prev => ({ ...prev, step: 'start-player', votes: {}, winner: null }));
   };
 
   const addCustomCategory = (name: string, words: string[]) => {
@@ -217,7 +217,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       goToSetup,
       goToCategorySelect,
       goToRoleReveal,
-      goToPlay,
+      goToStartPlayer,
       startGame, 
       addCustomCategory,
       customCategories,

@@ -4,7 +4,7 @@ import { useGame } from "@/contexts/GameContext";
 import { useState } from "react";
 
 export function VoteScreen() {
-  const { gameState, resetGame, goToPlay } = useGame();
+  const { gameState, resetGame, goToStartPlayer } = useGame();
   const [revealedRoles, setRevealedRoles] = useState(false);
 
   return (
@@ -12,8 +12,8 @@ export function VoteScreen() {
       <NeonButton
         variant="ghost"
         size="sm"
-        onClick={goToPlay}
-        className="self-start mb-4"
+        onClick={goToStartPlayer}
+        className="fixed left-4 top-4 z-10"
         disabled={revealedRoles}
       >
         Back

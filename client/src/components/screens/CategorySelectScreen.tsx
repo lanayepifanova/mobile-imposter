@@ -16,7 +16,7 @@ export function CategorySelectScreen() {
           variant="ghost"
           size="sm"
           onClick={goToSetup}
-          className="self-start"
+          className="fixed left-4 top-4 z-10"
         >
           Back
         </NeonButton>
