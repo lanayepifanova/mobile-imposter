@@ -69,7 +69,7 @@ export function SetupScreen() {
           <div className="flex gap-4">
             <NeonButton 
               variant="ghost" 
-              className="flex-1 bg-background hover:bg-foreground/10 border border-border outline outline-1 outline-foreground/40"
+              className="flex-1 bg-background hover:bg-foreground/10 !border !border-black"
               onClick={() => handlePlayerChange(-1)}
               disabled={gameState.players <= MIN_PLAYERS}
             >
@@ -77,7 +77,7 @@ export function SetupScreen() {
             </NeonButton>
             <NeonButton 
               variant="ghost" 
-              className="flex-1 bg-background hover:bg-foreground/10 border border-border outline outline-1 outline-foreground/40"
+              className="flex-1 bg-background hover:bg-foreground/10 !border !border-black"
               onClick={() => handlePlayerChange(1)}
               disabled={gameState.players >= MAX_PLAYERS}
             >
@@ -127,7 +127,7 @@ export function SetupScreen() {
           <div className="flex gap-4">
             <NeonButton 
               variant="ghost" 
-              className="flex-1 bg-background hover:bg-foreground/10 text-accent hover:text-accent border border-border outline outline-1 outline-foreground/40"
+              className="flex-1 bg-background hover:bg-foreground/10 text-accent hover:text-accent !border !border-black"
               onClick={() => handleImposterChange(-1)}
               disabled={gameState.imposters <= 1}
             >
@@ -135,7 +135,7 @@ export function SetupScreen() {
             </NeonButton>
             <NeonButton 
               variant="ghost" 
-              className="flex-1 bg-background hover:bg-foreground/10 text-accent hover:text-accent border border-border outline outline-1 outline-foreground/40"
+              className="flex-1 bg-background hover:bg-foreground/10 text-accent hover:text-accent !border !border-black"
               onClick={() => handleImposterChange(1)}
               disabled={gameState.imposters >= gameState.players - 1}
             >
