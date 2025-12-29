@@ -23,8 +23,8 @@ export function CategorySelectScreen() {
           <ArrowLeft className="w-4 h-4" />
           Back
         </NeonButton>
-        <h2 className="text-4xl font-playfair font-bold text-stone-800">Select Discipline</h2>
-        <p className="text-stone-500 font-lato">Choose the field of study for this round.</p>
+        <h2 className="text-4xl font-playfair font-bold text-foreground">Select Discipline</h2>
+        <p className="text-foreground/70 font-lato">Choose the field of study for this round.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 pb-20">
@@ -39,28 +39,28 @@ export function CategorySelectScreen() {
             key={cat}
             hoverEffect
             onClick={() => startGame(cat)}
-            className="flex items-center gap-6 p-5 group border-transparent hover:border-stone-200 ink-wash-card"
+            className="flex items-center gap-6 p-5 group border-transparent hover:border-foreground/40 ink-wash-card"
           >
             <div className={`w-16 h-16 rounded-2xl p-3 transition-colors duration-300 ${categoryStyle.bgClass} ${categoryStyle.bgHoverClass}`}>
               {categoryImage ? (
                 <img 
                   src={categoryImage} 
                   alt={cat}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain grayscale contrast-200 brightness-0"
                 />
               ) : CategoryIcon ? (
                 <CategoryIcon className={`w-full h-full ${categoryStyle.textClass}`} />
               ) : (
-                <span className="w-full h-full flex items-center justify-center text-2xl font-bold text-stone-400">?</span>
+                <span className="w-full h-full flex items-center justify-center text-2xl font-bold text-foreground/60">?</span>
               )}
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl font-bold font-playfair text-stone-800">{cat}</h3>
-              <p className="text-xs text-stone-400 font-lato uppercase tracking-wider mt-1">
+              <h3 className="text-2xl font-bold font-playfair text-foreground">{cat}</h3>
+              <p className="text-xs text-foreground/60 font-lato uppercase tracking-wider mt-1">
                 {CATEGORY_DESCRIPTIONS[cat]}
               </p>
             </div>
-            <div className="text-stone-300 group-hover:text-stone-800 transition-colors">
+            <div className="text-foreground/50 group-hover:text-foreground transition-colors">
               &rarr;
             </div>
           </GlassCard>
@@ -72,18 +72,18 @@ export function CategorySelectScreen() {
             key={cat}
             hoverEffect
             onClick={() => startGame(cat)}
-            className="flex items-center gap-6 p-5 group border-transparent hover:border-stone-200 ink-wash-card"
+            className="flex items-center gap-6 p-5 group border-transparent hover:border-foreground/40 ink-wash-card"
           >
-            <div className="w-16 h-16 rounded-2xl p-3 transition-colors duration-300 bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center">
-              <span className="text-2xl font-bold text-stone-400 group-hover:text-stone-600">?</span>
+            <div className="w-16 h-16 rounded-2xl p-3 transition-colors duration-300 bg-background group-hover:bg-foreground/10 flex items-center justify-center">
+              <span className="text-2xl font-bold text-foreground/60 group-hover:text-foreground/80">?</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl font-bold font-playfair text-stone-800">{cat}</h3>
-              <p className="text-xs text-stone-400 font-lato uppercase tracking-wider mt-1">
+              <h3 className="text-2xl font-bold font-playfair text-foreground">{cat}</h3>
+              <p className="text-xs text-foreground/60 font-lato uppercase tracking-wider mt-1">
                 Custom Category
               </p>
             </div>
-            <div className="text-stone-300 group-hover:text-stone-800 transition-colors">
+            <div className="text-foreground/50 group-hover:text-foreground transition-colors">
               &rarr;
             </div>
           </GlassCard>
@@ -92,7 +92,7 @@ export function CategorySelectScreen() {
         {/* Create New Button */}
         <button
           onClick={() => setIsCustomDialogOpen(true)}
-          className="w-full p-4 rounded-3xl border-2 border-dashed border-stone-300 text-stone-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 flex items-center justify-center gap-2 font-bold font-lato uppercase tracking-wider pressable"
+          className="w-full p-4 rounded-3xl border-2 border-dashed border-border text-foreground/60 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 flex items-center justify-center gap-2 font-bold font-lato uppercase tracking-wider pressable"
         >
           <Plus className="w-5 h-5" />
           Create Custom Category

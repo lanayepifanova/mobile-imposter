@@ -24,7 +24,7 @@ export function NeonButton({
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-sm hover:shadow-md",
     accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-sm hover:shadow-md",
     destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm hover:shadow-md",
-    ghost: "bg-transparent hover:bg-stone-100 text-stone-600 hover:text-stone-900",
+    ghost: "bg-transparent hover:bg-foreground/10 text-foreground/80 hover:text-foreground",
   };
 
   const sizeStyles = {

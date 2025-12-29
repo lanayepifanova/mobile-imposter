@@ -21,10 +21,10 @@ export function VoteScreen() {
         Back
       </NeonButton>
       <div className="text-center mb-10">
-        <h2 className="text-4xl font-playfair font-bold text-stone-800 mb-3">
+        <h2 className="text-4xl font-playfair font-bold text-foreground mb-3">
           {revealedRoles ? "The Truth" : "Who is it?"}
         </h2>
-        <p className="text-stone-500 font-lato">
+        <p className="text-foreground/70 font-lato">
           {revealedRoles ? "Game Over" : "Tap a player to reveal their role."}
         </p>
       </div>
@@ -38,11 +38,11 @@ export function VoteScreen() {
                 ? role === 'imposter' 
                   ? 'border-accent bg-accent/5' 
                   : 'border-primary bg-primary/5'
-                : 'border-transparent hover:border-stone-200 hover:shadow-md cursor-pointer bg-white ink-wash-card'
+                : 'border-transparent hover:border-foreground/40 hover:shadow-md cursor-pointer bg-card ink-wash-card'
             }`}
             onClick={() => setRevealedRoles(true)}
           >
-            <div className="text-xl font-playfair font-bold mb-2 text-stone-800 text-center">
+            <div className="text-xl font-playfair font-bold mb-2 text-foreground text-center">
               {gameState.playerNames[index]}
             </div>
             {revealedRoles ? (
@@ -52,7 +52,7 @@ export function VoteScreen() {
                 {role}
               </span>
             ) : (
-              <span className="text-stone-300 text-xs font-lato">???</span>
+              <span className="text-foreground/50 text-xs font-lato">???</span>
             )}
           </GlassCard>
         ))}
@@ -60,9 +60,9 @@ export function VoteScreen() {
 
       {revealedRoles && (
         <div className="w-full space-y-6 animate-in slide-in-from-bottom-8 fade-in duration-700">
-          <GlassCard className="text-center p-8 border-stone-100 bg-white shadow-xl ink-wash-card">
-            <p className="text-xs text-stone-400 uppercase tracking-widest mb-4 font-bold">The Secret Word Was</p>
-            <p className="text-4xl font-playfair font-bold text-stone-800">{gameState.secretWord}</p>
+          <GlassCard className="text-center p-8 border-border bg-card shadow-xl ink-wash-card">
+            <p className="text-xs text-foreground/60 uppercase tracking-widest mb-4 font-bold">The Secret Word Was</p>
+            <p className="text-4xl font-playfair font-bold text-foreground">{gameState.secretWord}</p>
           </GlassCard>
           
           <NeonButton fullWidth onClick={resetGame} className="shadow-lg">

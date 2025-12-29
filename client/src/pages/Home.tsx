@@ -10,7 +10,7 @@ function GameContainer() {
   const { gameState } = useGame();
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden bg-[#FDFBF7]">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden bg-background">
       {/* Soft Background Elements */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-40">
         <div className="absolute top-[-20%] left-[-20%] w-[70%] h-[70%] bg-primary/10 rounded-full blur-[120px]" />
