@@ -11,6 +11,7 @@ export default function AuthPage() {
   const { signIn, signUp } = useAuth();
   const [, setLocation] = useLocation();
   const [mode, setMode] = useState<AuthMode>("signin");
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -20,6 +21,11 @@ export default function AuthPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
+
+    if (mode === "signup" && !displayName.trim()) {
+      setError("Please add a name for your profile.");
+      return;
+    }
 
     if (mode === "signup" && password !== confirm) {
       setError("Passwords do not match.");
@@ -31,7 +37,7 @@ export default function AuthPage() {
       if (mode === "signin") {
         await signIn(email, password);
       } else {
-        await signUp(email, password);
+        await signUp(email, password, displayName.trim());
       }
       setLocation("/");
     } catch (err) {
@@ -145,6 +151,22 @@ export default function AuthPage() {
                   required
                 />
               </div>
+
+              {mode === "signup" && (
+                <div className="space-y-2">
+                  <label className="text-[11px] font-lato uppercase tracking-widest text-foreground/60">
+                    Name
+                  </label>
+                  <input
+                    className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-lato outline-none transition-colors focus:border-foreground"
+                    type="text"
+                    autoComplete="name"
+                    value={displayName}
+                    onChange={(event) => setDisplayName(event.target.value)}
+                    required
+                  />
+                </div>
+              )}
 
               {mode === "signup" && (
                 <div className="space-y-2">

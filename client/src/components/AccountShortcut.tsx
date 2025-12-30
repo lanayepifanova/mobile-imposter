@@ -6,7 +6,11 @@ export function AccountShortcut() {
   const { user } = useAuth();
   const [location, setLocation] = useLocation();
   const target = user ? "/account" : "/auth";
-  const label = user ? "Account" : "Sign in";
+  const displayName =
+    user?.user_metadata?.display_name ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name;
+  const label = user ? displayName || "Account" : "Sign in";
 
   return (
     <NeonButton
