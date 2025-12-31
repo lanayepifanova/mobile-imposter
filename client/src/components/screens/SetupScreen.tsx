@@ -13,6 +13,7 @@ export function SetupScreen() {
   const [error, setError] = useState<string | null>(null);
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const [savedNames, setSavedNames] = useState<string[]>([]);
+  const [activeNameIndex, setActiveNameIndex] = useState<number | null>(null);
 
   useEffect(() => {
     setPortalRoot(document.body);
@@ -57,9 +58,20 @@ export function SetupScreen() {
     const trimmed = name.trim();
     if (!trimmed) return;
     const newNames = [...gameState.playerNames];
+    const hasActiveIndex =
+      activeNameIndex !== null && activeNameIndex >= 0 && activeNameIndex < newNames.length;
     const emptyIndex = newNames.findIndex((entry) => !entry.trim());
-    if (emptyIndex === -1) return;
-    newNames[emptyIndex] = trimmed;
+    const targetIndex = hasActiveIndex ? activeNameIndex : emptyIndex;
+    if (targetIndex === -1) {
+      if (gameState.players >= MAX_PLAYERS) return;
+      const nextCount = gameState.players + 1;
+      newNames.push(trimmed);
+      setPlayers(nextCount);
+      setPlayerNames(newNames);
+      if (error) setError(null);
+      return;
+    }
+    newNames[targetIndex] = trimmed;
     setPlayerNames(newNames);
     if (error) setError(null);
   };
@@ -158,6 +170,7 @@ export function SetupScreen() {
                     type="text"
                     value={name}
                     onChange={(e) => handleNameChange(idx, e.target.value)}
+                    onFocus={() => setActiveNameIndex(idx)}
                     list="saved-player-names"
                     className={`w-full p-2 rounded-lg bg-background border text-sm font-lato outline-none transition-colors ${
                       !name.trim() && error 
@@ -185,7 +198,7 @@ export function SetupScreen() {
             {savedNames.length > 0 && (
               <div className="space-y-2">
                 <p className="text-[11px] font-lato uppercase tracking-widest text-foreground/50">
-                  Saved Players
+                  Saved Players (tap to add)
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {savedNames.map((name) => (
