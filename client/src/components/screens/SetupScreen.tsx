@@ -58,19 +58,22 @@ export function SetupScreen() {
     const trimmed = name.trim();
     if (!trimmed) return;
     const newNames = [...gameState.playerNames];
+    const isReplaceable = (currentName: string, index: number) => {
+      const normalized = currentName.trim().toLowerCase();
+      if (!normalized) return true;
+      return normalized === `player ${index + 1}`;
+    };
     const hasActiveIndex =
       activeNameIndex !== null && activeNameIndex >= 0 && activeNameIndex < newNames.length;
-    const emptyIndex = newNames.findIndex((entry) => !entry.trim());
-    const targetIndex = hasActiveIndex ? activeNameIndex : emptyIndex;
-    if (targetIndex === -1) {
-      if (gameState.players >= MAX_PLAYERS) return;
-      const nextCount = gameState.players + 1;
-      newNames.push(trimmed);
-      setPlayers(nextCount);
-      setPlayerNames(newNames);
-      if (error) setError(null);
-      return;
-    }
+    const maxFillIndex = Math.min(4, newNames.length);
+    const replaceableIndex = newNames
+      .slice(0, maxFillIndex)
+      .findIndex((entry, index) => isReplaceable(entry, index));
+    const targetIndex =
+      hasActiveIndex && isReplaceable(newNames[activeNameIndex], activeNameIndex)
+        ? activeNameIndex
+        : replaceableIndex;
+    if (targetIndex === -1) return;
     newNames[targetIndex] = trimmed;
     setPlayerNames(newNames);
     if (error) setError(null);
