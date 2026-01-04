@@ -37,6 +37,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     imposters: 1,
     category: null,
     secretWord: '',
+    hintWord: '',
     playerRoles: [],
     currentPlayerIndex: 0,
     startingPlayerIndex: null,
@@ -75,6 +76,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       step: 'setup',
       category: null,
       secretWord: '',
+      hintWord: '',
       playerRoles: [],
       currentPlayerIndex: 0,
       startingPlayerIndex: null,
@@ -89,6 +91,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       step: 'category-select',
       category: null,
       secretWord: '',
+      hintWord: '',
       playerRoles: [],
       currentPlayerIndex: 0,
       startingPlayerIndex: null,
@@ -129,6 +132,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       return;
     }
     const secretWord = wordList[Math.floor(Math.random() * wordList.length)];
+    const hintCandidates = wordList.filter(word => word !== secretWord);
+    const hintWord = hintCandidates.length
+      ? hintCandidates[Math.floor(Math.random() * hintCandidates.length)]
+      : category;
     
     // Assign roles
     const roles: Role[] = Array(gameState.players).fill('crew');
@@ -146,6 +153,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       step: 'roles',
       category,
       secretWord,
+      hintWord,
       playerRoles: roles,
       currentPlayerIndex: 0,
       startingPlayerIndex: null,
@@ -200,6 +208,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       imposters: gameState.imposters,
       category: null,
       secretWord: '',
+      hintWord: '',
       playerRoles: [],
       currentPlayerIndex: 0,
       startingPlayerIndex: null,

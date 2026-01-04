@@ -43,7 +43,11 @@ export function RoleRevealScreen() {
           {gameState.playerNames[gameState.currentPlayerIndex]}
         </h2>
         <p className="text-foreground/70 font-lato text-sm">
-          {isRevealed ? "Memorize your secret word" : "Tap the card to reveal your role"}
+          {isRevealed
+            ? isImposter
+              ? "Memorize your hint word"
+              : "Memorize your secret word"
+            : "Tap the card to reveal your role"}
         </p>
       </div>
 
@@ -62,6 +66,12 @@ export function RoleRevealScreen() {
                 <div>
                   <h3 className="text-3xl font-playfair font-bold text-accent mb-2">Imposter</h3>
                   <p className="text-foreground/70 font-lato text-sm italic">Blend in. Don't get caught.</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-lato font-bold text-foreground/60 tracking-widest uppercase mb-3">Hint Word</h3>
+                  <p className="text-2xl font-playfair font-bold text-foreground">
+                    {gameState.hintWord}
+                  </p>
                 </div>
               </>
             ) : (

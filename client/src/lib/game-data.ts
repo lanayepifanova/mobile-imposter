@@ -7,6 +7,7 @@ export interface GameState {
   imposters: number;
   category: string | null;
   secretWord: string;
+  hintWord: string;
   playerRoles: Role[];
   currentPlayerIndex: number;
   startingPlayerIndex: number | null;
